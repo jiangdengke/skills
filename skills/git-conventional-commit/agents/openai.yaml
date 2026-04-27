@@ -1,0 +1,4 @@
+interface:
+  display_name: "Emoji Commit Message"
+  short_description: "Generate Chinese emoji Conventional Commits"
+  default_prompt: "Use $git-conventional-commit to analyze my diff and generate Chinese commit messages in emoji Conventional Commit format."

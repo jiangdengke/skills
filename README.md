@@ -1,29 +1,34 @@
 # Skills
 
-Personal Codex skills repository.
+这是一个自用的 Codex skills 仓库。
 
-## Layout
+## 目录结构
 
 ```text
 skills/
   git-conventional-commit/
 ```
 
-## Install a skill
+## 安装技能
 
-After pushing this repository to GitHub, install a skill with:
+推荐直接在 Codex 里安装：
 
-```bash
-python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
-  --repo <owner>/<repo> \
-  --path skills/git-conventional-commit
+```text
+使用 $skill-installer 安装 https://github.com/jiangdengke/skills/tree/main/skills/git-conventional-commit
 ```
 
-Or install from a GitHub tree URL:
+如果你已经在 Codex 里，也可以直接说：
 
-```bash
-python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
-  --url https://github.com/<owner>/<repo>/tree/main/skills/git-conventional-commit
+```text
+帮我用 $skill-installer 安装 https://github.com/jiangdengke/skills/tree/main/skills/git-conventional-commit
 ```
 
-Restart Codex after installing new skills.
+如果不通过 Codex，也可以手动安装：
+
+```bash
+git clone https://github.com/jiangdengke/skills.git
+mkdir -p ~/.codex/skills
+cp -R skills/skills/git-conventional-commit ~/.codex/skills/
+```
+
+安装完成后，重启 Codex，新的 skill 才会被自动发现。

@@ -13,6 +13,7 @@ Use this reference when the type, emoji, scope, or message shape is ambiguous.
 - `:bug: fix`: 修复缺陷
 - `:building_construction: build`: 构建相关
 - `:wrench: chore`: 日常任务或配置变更
+- `:bookmark: chore(release)`: 版本发布或打 tag
 - `:construction_worker: ci`: 持续集成配置
 - `:memo: docs`: 文档更新
 - `:high_voltage: perf`: 性能优化
@@ -57,7 +58,18 @@ Use this reference when the type, emoji, scope, or message shape is ambiguous.
 - `:memo: docs: 补充本地开发环境说明`
 - `:white_check_mark: test(cache): 增加过期缓存淘汰测试`
 - `:wrench: chore(deps): 更新 okhttp 到 5.1.0`
+- `:bookmark: chore(release): 发布 v1.0.17`
 - `:globe_with_meridians: i18n(ui): 补充登录页中文文案`
+
+## Release heuristics
+
+- 发正式版本时使用 SemVer：`vX.Y.Z`。
+- 默认发 PATCH 版本，除非 diff 明确包含用户可见新功能或破坏性变更。
+- 新功能使用 MINOR，破坏性变更使用 MAJOR。
+- Beta 或 RC 版本使用 `vX.Y.Z-beta.1`、`vX.Y.Z-rc.1` 等后缀。
+- Flutter 应用版本保持 `X.Y.Z+build`，build number 必须单调递增。
+- 发布提交优先使用 `:bookmark: chore(release): 发布 vX.Y.Z`。
+- tag message 和 GitHub Release body 尽量使用中文。
 
 ## Multiple commit example
 

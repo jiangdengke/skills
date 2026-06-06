@@ -1,6 +1,6 @@
 ---
 name: git-conventional-commit
-description: "Generate Git commit messages in Chinese using emoji plus Conventional Commit format. Use when the user asks Codex to analyze `git diff`, write a commit message, split unrelated changes into separate commits, commit code with a team convention, or produce messages like `:sparkles: feat(scope): 描述`. Trigger on requests such as `生成 commit message`, `帮我提交代码`, `分析 git diff`, `按照约定式提交`, `写中文 commit`, or `use emoji conventional commits`."
+description: "Generate Git commit messages and release messages in Chinese using emoji plus Conventional Commit format. Use when the user asks Codex to analyze `git diff`, write a commit message, split unrelated changes into separate commits, commit code with a team convention, publish a release, bump versions, create tags, or produce messages like `:sparkles: feat(scope): 描述`. Trigger on requests such as `生成 commit message`, `帮我提交代码`, `分析 git diff`, `按照约定式提交`, `写中文 commit`, `发版`, `发布 release`, or `打 tag`."
 ---
 
 # Git Conventional Commit
@@ -55,11 +55,68 @@ Use Chinese for description, body, and footer. Preserve technical terms such as 
    - Do not output explanations, introductions, Markdown code fences, or confirmation text together with the messages.
    - If the user explicitly asks to run `git commit`, use the generated message format directly when composing the command.
 
+## Release Workflow
+
+Use this workflow when the user asks to publish a release, bump a version, create a tag, or produce release notes.
+
+1. Inspect release state first.
+   - Run `git status --short` and avoid including unrelated untracked files such as build outputs or local documents unless the user explicitly asks.
+   - Check existing tags with `git tag --sort=-v:refname --list 'v*'`.
+   - Inspect release automation when present, such as GitHub Actions workflows that publish releases on tag pushes.
+
+2. Choose the next version with Semantic Versioning.
+   - Default to the next stable PATCH version when the user only asks for a new release and no stronger signal exists.
+   - Use MAJOR for breaking changes or incompatible data/API changes.
+   - Use MINOR for user-facing features that remain backward compatible.
+   - Use PATCH for bug fixes, dependency/build fixes, release-only version bumps, and small compatibility adjustments.
+   - Use pre-release suffixes such as `-beta.1` or `-rc.1` only when the user asks for a beta, RC, test, or prerelease build.
+   - Stable release tags must use `vX.Y.Z`; pre-release tags must use `vX.Y.Z-rc.1`, `vX.Y.Z-beta.1`, or a similar SemVer suffix.
+
+3. Keep app version files aligned.
+   - For Flutter apps, keep `pubspec.yaml` in the shape `X.Y.Z+build`.
+   - Increment the build number monotonically; for simple stable app releases, prefer `X.Y.Z+Z` only when that matches the repository's existing convention.
+   - If the version file, latest tag, and requested release disagree, stop and ask the user which version to publish.
+
+4. Write release commit messages in Chinese.
+   - For release-only commits, prefer `:bookmark: chore(release): 发布 vX.Y.Z`.
+   - Include a Chinese body when it helps explain what is included in the release.
+   - Example:
+     ```text
+     :bookmark: chore(release): 发布 v1.0.17
+
+     - 更新应用版本到 1.0.17+17
+     - 同步本次发布所需的构建与依赖配置
+     ```
+
+5. Write tag and release messages in Chinese.
+   - Prefer annotated tags: `git tag -a vX.Y.Z`.
+   - Tag message should be Chinese, for example:
+     ```text
+     发布 v1.0.17
+
+     - 更新应用版本到 1.0.17+17
+     - 同步 Flutter 依赖锁定结果
+     ```
+   - GitHub Release title should be `vX.Y.Z`.
+   - Manual GitHub Release bodies should be Chinese and use this structure when enough context exists:
+     ```markdown
+     ## 更新内容
+     - ...
+
+     ## 验证
+     - ...
+
+     ## 产物
+     - ...
+     ```
+   - If the repository already generates release notes automatically, pushing the tag is enough unless the user asks for a manual release body.
+
 ## Output Contract
 
 - Always emit the subject in the exact shape `<emoji> <type>(<scope>): <description>` or `<emoji> <type>: <description>`.
 - Always use the emoji shortcodes from the reference file, such as `:sparkles:` instead of a Unicode emoji.
 - Always keep description, body, and footer in Chinese.
+- For release commits, prefer `:bookmark: chore(release): 发布 vX.Y.Z` and keep tag/release messages in Chinese.
 - Always preserve technical nouns in English when translation would sound unnatural.
 - Never explain why a type was chosen unless the user explicitly asks for explanation after the message has been produced.
 - Never wrap the final message in code fences.

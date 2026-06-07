@@ -7,6 +7,7 @@
 | Skill | 作用 | 适合场景 |
 | --- | --- | --- |
 | `git-conventional-commit` | 根据 Git diff 生成中文提交信息，格式为 emoji shortcode + Conventional Commit | 生成 commit message、拆分提交、提交代码、发版、打 tag |
+| `grill-me` | 像评审/面试官一样持续追问方案设计，逐步压测决策、边界和风险 | 方案评审、架构设计、RFC/PRD 打磨、提前发现遗漏 |
 | `smart-search-cli` | 通过本地 `smart-search` CLI 做联网搜索、网页抓取、文档检索和 Deep Research | 查最新信息、核验网页/事实、检索官方文档、做带来源的调研 |
 
 ## 目录结构
@@ -17,6 +18,8 @@ skills/
     SKILL.md
     agents/
     references/
+  grill-me/
+    SKILL.md
   smart-search-cli/
     SKILL.md
     agents/
@@ -50,6 +53,26 @@ skills/
 
 ```text
 :sparkles: feat(auth): 支持用户登录态自动续期
+```
+
+### `grill-me`
+
+用于让 Agent 对一个计划或设计进行连续追问，直到双方对关键决策、依赖关系、风险和边界条件达成清晰共识。
+
+它会：
+
+- 一次只问一个问题，避免同时抛出过多分支。
+- 沿着设计决策树逐步追问，例如目标、约束、替代方案、回滚方案、测试策略等。
+- 每个问题都给出推荐答案，帮助你更快判断合理选择。
+- 如果问题可以通过查看代码库回答，优先让 Agent 自己查代码，而不是直接问你。
+
+示例用法：
+
+```text
+我准备重构登录模块，grill me
+这是我的缓存设计方案，帮我 grill 一下
+我想写一个技术方案，帮我像评审一样追问
+帮我压力测试一下这个产品设计
 ```
 
 ### `smart-search-cli`
@@ -91,6 +114,7 @@ API Key 建议通过 `smart-search setup` 或 `smart-search config set KEY VALUE
 
 ```text
 使用 $skill-installer 安装 https://github.com/jiangdengke/skills/tree/main/skills/git-conventional-commit
+使用 $skill-installer 安装 https://github.com/jiangdengke/skills/tree/main/skills/grill-me
 使用 $skill-installer 安装 https://github.com/jiangdengke/skills/tree/main/skills/smart-search-cli
 ```
 
@@ -98,6 +122,7 @@ API Key 建议通过 `smart-search setup` 或 `smart-search config set KEY VALUE
 
 ```text
 帮我用 $skill-installer 安装 https://github.com/jiangdengke/skills/tree/main/skills/git-conventional-commit
+帮我用 $skill-installer 安装 https://github.com/jiangdengke/skills/tree/main/skills/grill-me
 帮我用 $skill-installer 安装 https://github.com/jiangdengke/skills/tree/main/skills/smart-search-cli
 ```
 
@@ -107,6 +132,7 @@ API Key 建议通过 `smart-search setup` 或 `smart-search config set KEY VALUE
 git clone https://github.com/jiangdengke/skills.git
 mkdir -p ~/.codex/skills
 cp -R skills/skills/git-conventional-commit ~/.codex/skills/
+cp -R skills/skills/grill-me ~/.codex/skills/
 cp -R skills/skills/smart-search-cli ~/.codex/skills/
 ```
 
@@ -116,6 +142,7 @@ cp -R skills/skills/smart-search-cli ~/.codex/skills/
 git clone https://github.com/jiangdengke/skills.git
 mkdir -p ~/.cursor/skills
 cp -R skills/skills/git-conventional-commit ~/.cursor/skills/
+cp -R skills/skills/grill-me ~/.cursor/skills/
 cp -R skills/skills/smart-search-cli ~/.cursor/skills/
 ```
 

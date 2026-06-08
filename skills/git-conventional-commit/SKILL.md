@@ -113,6 +113,10 @@ Use this workflow when the user asks to publish a release, bump a version, creat
      ## 产物
      - ...
      ```
+   - GitHub Release pages do not automatically display annotated tag messages. When release automation exists, make the workflow pass a notes body or `--notes-file` explicitly.
+   - Prerelease tags such as `vX.Y.Z-alpha.1`, `vX.Y.Z-beta.1`, or `vX.Y.Z-rc.1` must create or edit GitHub Releases with the prerelease flag, for example `gh release create ... --prerelease` or `gh release edit ... --prerelease`.
+   - Existing GitHub Releases must be edited to sync title, notes, and prerelease status before or while uploading assets. Do not only run `gh release upload` against an existing release.
+   - Prefer copying the annotated tag message into the GitHub Release body, then append artifact information such as APK names under `## 产物`.
    - If the repository already generates release notes automatically, pushing the tag is enough unless the user asks for a manual release body.
 
 ## Output Contract
@@ -121,6 +125,7 @@ Use this workflow when the user asks to publish a release, bump a version, creat
 - Always use the emoji shortcodes from the reference file, such as `:sparkles:` instead of a Unicode emoji.
 - Always keep description, body, and footer in Chinese.
 - For release commits, prefer `:bookmark: chore(release): 发布 vX.Y.Z` and keep tag/release messages in Chinese.
+- For prerelease tags, ensure the GitHub Release is marked as a prerelease and uses the Chinese release body instead of generic automation text.
 - Always preserve technical nouns in English when translation would sound unnatural.
 - Never explain why a type was chosen unless the user explicitly asks for explanation after the message has been produced.
 - Never wrap the final message in code fences.

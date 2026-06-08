@@ -118,6 +118,10 @@ Use this workflow when the user asks to publish a release, bump a version, creat
    - Existing GitHub Releases must be edited to sync title, notes, draft status, and prerelease status before or while uploading assets. Do not only run `gh release upload` against an existing release.
    - When publishing an existing draft release, pass `--draft=false` explicitly, for example `gh release edit vX.Y.Z --draft=false`.
    - Prefer copying the annotated tag message into the GitHub Release body, then append artifact information such as APK names under `## 产物`.
+   - Release notes must describe user-visible changes in the released version, not the latest release workflow, CI, or tag-fix commit.
+   - When extracting release notes automatically, verify the tag object type is `tag` and only use annotated tag contents. Do not use lightweight tag contents as release notes because Git can resolve them to the target commit message.
+   - If the annotated tag message starts with a title such as `发布 vX.Y.Z`, strip that title before placing the content under `## 更新内容`.
+   - If no annotated tag message is available, ask the user for release notes or use an explicit neutral fallback. Never fall back to the HEAD commit message.
    - If the repository already generates release notes automatically, pushing the tag is enough unless the user asks for a manual release body.
 
 ## Output Contract

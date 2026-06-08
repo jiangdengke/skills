@@ -64,20 +64,24 @@ Use this workflow when the user asks to publish a release, bump a version, creat
    - Check existing tags with `git tag --sort=-v:refname --list 'v*'`.
    - Inspect release automation when present, such as GitHub Actions workflows that publish releases on tag pushes.
 
-2. Choose the next version with Semantic Versioning.
-   - Default to the next stable PATCH version when the user only asks for a new release and no stronger signal exists.
+2. Confirm the release channel before choosing a version.
+   - When the user asks to publish a release, create a release tag, bump a version for release, or says `发版` / `打 tag`, stop and ask whether this should be a stable release or a prerelease.
+   - Ask with explicit options: stable release (`vX.Y.Z`) or prerelease (`vX.Y.Z-beta.1`, `vX.Y.Z-rc.1`, or a similar SemVer suffix).
+   - Do not infer a stable release just because the user did not mention beta, RC, test, or prerelease.
+   - Only skip this question when the user's current request already unambiguously specifies both the release channel and the target version/tag.
+
+3. Choose the next version with Semantic Versioning after the release channel is confirmed.
    - Use MAJOR for breaking changes or incompatible data/API changes.
    - Use MINOR for user-facing features that remain backward compatible.
    - Use PATCH for bug fixes, dependency/build fixes, release-only version bumps, and small compatibility adjustments.
-   - Use pre-release suffixes such as `-beta.1` or `-rc.1` only when the user asks for a beta, RC, test, or prerelease build.
    - Stable release tags must use `vX.Y.Z`; pre-release tags must use `vX.Y.Z-rc.1`, `vX.Y.Z-beta.1`, or a similar SemVer suffix.
 
-3. Keep app version files aligned.
+4. Keep app version files aligned.
    - For Flutter apps, keep `pubspec.yaml` in the shape `X.Y.Z+build`.
    - Increment the build number monotonically; for simple stable app releases, prefer `X.Y.Z+Z` only when that matches the repository's existing convention.
    - If the version file, latest tag, and requested release disagree, stop and ask the user which version to publish.
 
-4. Write release commit messages in Chinese.
+5. Write release commit messages in Chinese.
    - For release-only commits, prefer `:bookmark: chore(release): 发布 vX.Y.Z`.
    - Include a Chinese body when it helps explain what is included in the release.
    - Example:
@@ -88,7 +92,7 @@ Use this workflow when the user asks to publish a release, bump a version, creat
      - 同步本次发布所需的构建与依赖配置
      ```
 
-5. Write tag and release messages in Chinese.
+6. Write tag and release messages in Chinese.
    - Prefer annotated tags: `git tag -a vX.Y.Z`.
    - Tag message should be Chinese, for example:
      ```text
